@@ -919,6 +919,20 @@ body.cp-live .gbtn-wrap[hidden]{display:none}
 .ph-mission{display:flex;align-items:center;gap:12px;margin:26px 0 0;font-family:"Newsreader",Georgia,serif;font-style:italic;font-size:19px;line-height:1.35;color:rgba(255,255,255,.88);letter-spacing:.1px}
 .ph-mission span{flex:none;width:28px;height:2px;background:#c9a54a;border-radius:2px}
 @media(max-width:720px){.ph-mission{font-size:17px;margin-top:18px}}
+/* ---- business licences ---- */
+.biz-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+@media(max-width:1000px){.biz-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.biz-grid{grid-template-columns:1fr}}
+.biz-tier{background:#fff;border:1px solid var(--hair,#d9e1dc);border-radius:14px;padding:20px 18px;display:flex;flex-direction:column}
+.biz-tier.hi{border:2px solid var(--green);box-shadow:0 10px 26px rgba(21,122,91,.12)}
+.biz-tier .bt-name{margin:0;font-weight:700;font-size:17px}
+.biz-tier .bt-note{margin:2px 0 12px;font-size:12.5px;color:var(--ink-faint)}
+.biz-tier .bt-price{margin:0 0 12px;font-size:22px;font-weight:700;color:var(--ink)}
+.biz-tier ul{list-style:none;margin:0 0 16px;padding:0;font-size:13.5px;color:var(--ink-soft);flex:1}
+.biz-tier li{padding:4px 0 4px 18px;position:relative}
+.biz-tier li::before{content:"✓";position:absolute;left:0;color:var(--green);font-weight:700}
+.biz-note{font-size:12.5px;color:var(--ink-faint);margin:12px 0 0}
+.garage-cap{margin:8px 0 0;font-size:12.5px;color:var(--ink-faint)}
 /* ---- contact honeypot & sample label ---- */
 .cf-hp{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
 .samplebar{margin:4px 0 14px;padding:10px 14px;border-radius:10px;background:#fff6dc;border:1px solid #e8d38f;color:#5c4a12;font-size:13.5px}
@@ -956,6 +970,7 @@ body.cp-live .gbtn-wrap[hidden]{display:none}
     <nav class="nav" aria-label="Primary">
       <a id="navLookup" href="#" data-route="home" aria-current="true">Look up</a>
       <a href="#" data-act="sec:services">Services</a>
+      <a id="navBusiness" href="#" data-route="business">Business</a>
       <a id="navVerify" href="#" data-route="verify">Verify report</a>
       <a id="navAbout" href="#" data-route="about">About us</a>
       <a id="navContact" href="#" data-route="contact">Contact us</a>
@@ -963,7 +978,7 @@ body.cp-live .gbtn-wrap[hidden]{display:none}
         <button type="button" id="navRegister" class="navdd-btn nav-reg" aria-haspopup="true" aria-expanded="false">Sign up <svg class="dd-caret" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
         <div class="navdd-menu" role="menu">
           <a href="#" data-route="signup" role="menuitem"><b>Owner</b><span>Register your vehicle</span></a>
-          <a href="#" data-route="provider-register" role="menuitem"><b>Partner</b><span>Insurers, banks, garages &amp; dealers</span></a>
+          <a href="#" data-route="provider-register" role="menuitem"><b>Partner</b><span>Insurers, banks, garages, dealers &amp; more</span></a>
         </div>
       </div>
       <div class="navdd" id="ddSignin">
@@ -1120,7 +1135,7 @@ body.cp-live .gbtn-wrap[hidden]{display:none}
           <h3>Chassis / VIN decoder</h3>
           <p>Reads a 17-character VIN, or recognises a Japanese frame number on a reconditioned import.</p>
         </div>
-        <div class="tool-in"><input id="tv-in" autocomplete="off" spellcheck="false" placeholder="WBAKW8200H0R12345" aria-label="Chassis or VIN"><button type="button" id="tv-go">Decode</button></div>
+        <div class="tool-in"><input id="tv-in" name="cp-vin-decoder" type="search" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-1p-ignore data-lpignore="true" data-form-type="other" placeholder="e.g. JMZ0SAMPLE0000001" aria-label="Chassis or VIN"><button type="button" id="tv-go">Decode</button></div>
         <div class="tool-ex">Examples: <span class="chip" data-tv="WBAKW8200H0R12345">WBAKW8200H0R12345</span><span class="chip" data-tv="JTDKB20U793456789">JTDKB20U793456789</span><span class="chip" data-tv="NHP10-6456789">NHP10-6456789</span></div>
         <div class="tool-out" id="tv-out"></div>
       </div>
@@ -1194,6 +1209,21 @@ body.cp-live .gbtn-wrap[hidden]{display:none}
   </div><!-- /page-home -->
 
   <!-- ============ ABOUT US ============ -->
+  <div id="page-business" class="page" hidden>
+    <section class="wrap hero" style="padding-bottom:10px">
+      <p class="eyebrow">carpassport Business</p>
+      <h1>One account for every vehicle your business runs.</h1>
+      <p class="lede">A personal garage holds up to 5 vehicles. A Business licence lifts that limit for fleets, rental and taxi operators, dealers and companies — each vehicle keeps its full, verifiable record, and you can produce an official extract for any of them in seconds.</p>
+    </section>
+    <section class="wrap" style="padding-bottom:20px">
+      <div class="biz-grid" id="biz-tiers"></div>
+      <p class="biz-note">Licences are activated by carpassport after a short call — no card details are taken online.</p>
+    </section>
+    <section class="wrap" style="padding-bottom:60px">
+      <div class="card" id="biz-req" style="max-width:760px"><div class="card-h"><h3>Request a Business licence</h3><span class="hx">we reply within one working day</span></div><div class="card-b" id="biz-req-b"></div></div>
+    </section>
+  </div>
+
   <div id="page-about" class="page" hidden>
     <section class="wrap hero" style="padding-bottom:14px">
       <p class="eyebrow">About us</p>
@@ -1471,7 +1501,7 @@ body.cp-live .gbtn-wrap[hidden]{display:none}
         <div class="auth-body">
           <span class="auth-badge ins">Become a partner</span>
           <h1>Register your organisation</h1>
-          <p class="sub">Insurers, banks, garages and dealers can work with carpassport. Tick every service you offer — your portal is built around them. Access opens once carpassport has approved your application.</p>
+          <p class="sub">Insurers, banks, garages, mechanics, repairers, dealers and surveyors can work with carpassport. Choose the one that best describes your business — your portal is built around it. Access opens once carpassport has approved your application.</p>
           <p class="wz-h">Your organisation</p>
           <div class="cf-row">
             <div class="cf"><label>Organisation name</label><input id="pr-org" placeholder="Registered business name"></div>
@@ -1527,6 +1557,7 @@ body.cp-live .gbtn-wrap[hidden]{display:none}
   <div id="adm-q"></div>
   <div id="adm-claims"></div>
   <div id="adm-staff"></div>
+  <div id="adm-biz"></div>
 </div>
   </div>
 
@@ -1549,6 +1580,7 @@ body.cp-live .gbtn-wrap[hidden]{display:none}
           <a href="#" data-route="signup">Register a vehicle</a>
           <a href="#" data-route="auth-institution">Partner sign in</a>
           <a href="#" data-route="provider-register">Become a partner</a>
+          <a href="#" data-route="business">Business licences</a>
           <a href="#" data-route="about">About us</a>
           <a href="#" data-route="contact">Contact us</a></div>
       </div>
@@ -2021,11 +2053,12 @@ showRecent(); updateHint();
 
 // ---------- page router ----------
 const PAGES={home:"page-home",about:"page-about",contact:"page-contact",verify:"page-verify",
+  "business":"page-business",
   "auth-owner":"page-auth-owner","auth-institution":"page-auth-institution","auth-admin":"page-auth-admin",
   "app-owner":"page-app-owner","app-institution":"page-app-institution","app-admin":"page-app-admin",
   "signup":"page-signup","accept-transfer":"page-accept-transfer","provider-register":"page-provider-register","new-password":"page-new-password"};
 const NAVCANON={home:"navLookup",about:"navAbout",contact:"navContact",verify:"navVerify",
-  "auth-owner":"navSignin","app-owner":"navSignin","auth-institution":"navSignin","app-institution":"navSignin","provider-register":"navRegister","signup":"navRegister","accept-transfer":"navSignin"};
+  "auth-owner":"navSignin","app-owner":"navSignin","auth-institution":"navSignin","app-institution":"navSignin","provider-register":"navRegister","signup":"navRegister","business":"navBusiness","accept-transfer":"navSignin"};
 function goPage(route){
   if(!PAGES[route]) route="home";
   Object.entries(PAGES).forEach(([r,id])=>{const el=document.getElementById(id); if(el) el.hidden=(r!==route);});
@@ -2646,6 +2679,8 @@ $("wz-skip").addEventListener("click", e => busy(e.currentTarget, () => wzSubmit
    2. OWNER GARAGE + VEHICLE PROFILE
    ===================================================================== */
 const statusChip = s => s==="verified" ? '<span class="schip ver">Verified</span>' : '<span class="schip self">Self-declared</span>';
+const garageLimit = m => (m && m.provider && m.provider.status==="approved") ? null : ((m && m.profile && m.profile.vehicle_limit) || 5);
+const garageFull = (m, g) => { const lim=garageLimit(m); return lim!=null && g.vehicles.length >= lim; };
 async function loadOwner(){
   const root=$("own-root"); root.innerHTML='<p class="loading">Loading your garage…</p>';
   try{
@@ -2663,7 +2698,8 @@ function renderOwner(m){
   root.innerHTML = `
   <div class="app-h"><div><p class="eyebrow">My garage · Tier 2</p><h1>Hello, ${esc(firstName(m.profile.full_name))}</h1>
     <p>Every vehicle you own, its full record, and the history that follows it from owner to owner.</p></div>
-    <div class="btnrow"><button class="ra pri" data-act="route:signup">+ Add a vehicle</button><button class="ra" data-act="route:accept-transfer">Bought a car? Enter a transfer code</button></div></div>
+    <div class="btnrow">${garageFull(m, g) ? `<button class="ra pri" data-act="route:business">Garage full — upgrade to Business</button>` : `<button class="ra pri" data-act="route:signup">+ Add a vehicle</button>`}<button class="ra" data-act="route:accept-transfer">Bought a car? Enter a transfer code</button></div>
+    ${garageLimit(m)!=null ? `<p class="garage-cap">${g.vehicles.length} of ${garageLimit(m)} vehicles${(m.profile.plan||"personal")==="personal" ? ` · <a href="#" data-act="route:business">Need more? See Business licences</a>` : ` · ${esc(m.profile.plan)} licence`}</p>` : ""}</div>
   ${OWN.flash ? `<div class="nf-info" style="margin:0 0 16px">${esc(OWN.flash)}</div>` : ""}
   ${g.incoming.length ? `<div class="card"><div class="card-h"><h3>Incoming transfers</h3></div><div class="card-b">
     ${g.incoming.map(t=>`<div class="qitem"><div><div class="qt">${esc(t.vehicle.plate)} — ${esc(t.vehicle.make+" "+t.vehicle.model)}</div>
@@ -2911,7 +2947,10 @@ const SERVICES = {
   bank:{name:"Bank / leasing", d:"Verify vehicles before financing; register and discharge liens."},
   garage:{name:"Garage / workshop", d:"Log services and repairs so they appear in the vehicle's history."},
   dealer:{name:"Dealer / importer", d:"Add stock vehicles and transfer the record to the buyer at sale."},
-  surveyor:{name:"Surveyor", d:"Independent motor surveyors — onboard vehicles with a survey, valuation and CPSS grade (trusted surveyors only)."}
+  surveyor:{name:"Surveyor", d:"Independent motor surveyors — onboard vehicles with a survey, valuation and CPSS grade (trusted surveyors only)."},
+  mechanic:{name:"Mechanic", d:"Servicing, diagnostics and mechanical repairs — log the work so it appears in the vehicle's history."},
+  repairer:{name:"Repairer", d:"Body, paint and accident repairs — record repairs on the vehicle's history."},
+  other:{name:"Other", d:"Another automotive business — verify vehicles and work with carpassport."}
 };
 const SUBS = {
   policy:{svc:"insurer", tab:"Confirm a policy", title:"Insurance policy confirmed",
@@ -2933,7 +2972,7 @@ const subDetail = s => { const p=s.payload;
   if(s.kind==="lien_discharged") return p.ref ? "ref "+p.ref : "";
   return [p.detail, p.odometer&&fmtKm(p.odometer)].filter(Boolean).join(" · "); };
 
-$("pr-svcs").innerHTML = Object.entries(SERVICES).map(([k,s])=>`<label><input type="checkbox" id="pr-svc-${k}" value="${k}"><span><b>${s.name}</b>${s.d}</span></label>`).join("");
+$("pr-svcs").innerHTML = Object.entries(SERVICES).map(([k,s])=>`<label><input type="radio" name="pr-svc" id="pr-svc-${k}" value="${k}"><span><b>${s.name}</b>${s.d}</span></label>`).join("");
 function prOpen(){ $("pr-err").textContent=""; $("pr-pw").hidden=!!CP.user; $("pr-google").hidden=!!CP.user;
   if(CP.user && !$("pr-name").value){ const m=CP.user.user_metadata||{}; if(m.full_name||m.name) $("pr-name").value=m.full_name||m.name; } if(CP.user){ $("pr-email").value=CP.user.email||""; takeDraft("provider-register"); } $("pr-email").disabled=!!CP.user; }
 $("pr-go").addEventListener("click", e => busy(e.currentTarget, async () => {
@@ -2941,7 +2980,7 @@ $("pr-go").addEventListener("click", e => busy(e.currentTarget, async () => {
   const services=[...document.querySelectorAll("#pr-svcs input:checked")].map(i=>i.value);
   if(g("pr-org").length<2) return void(err.textContent="Enter your organisation's name.");
   if(g("pr-brn").length<5) return void(err.textContent="Enter your Business Registration Number (BRN).");
-  if(!services.length) return void(err.textContent="Tick at least one service you offer.");
+  if(services.length!==1) return void(err.textContent="Choose the type of partner you are.");
   if(g("pr-name").length<3) return void(err.textContent="Enter the account holder's full name.");
   if(!validEmail(g("pr-email"))) return void(err.textContent="Enter a valid work email.");
   if(!normPhone(g("pr-phone"))) return void(err.textContent="Enter a Mauritian phone number.");
@@ -2977,7 +3016,7 @@ async function loadProvider(){
 }
 function providerTabs(p){
   const t=[];
-  if(p.services.includes("garage")) t.push(["service","Service checklist"]);
+  if(p.services.some(s => s==="garage"||s==="mechanic"||s==="repairer")) t.push(["service","Service checklist"]);
   t.push(["verify","Verify a vehicle"]);
   Object.entries(SUBS).forEach(([k,s])=>{ if(p.services.includes(s.svc)) t.push([k,s.tab]); });
   if(p.services.includes("dealer")) t.push(["stock","Stock & sales"]);
@@ -3139,7 +3178,7 @@ async function loadAdmin(){
     const m=await me();
     if(!isAdmin(m)){ box.innerHTML='<div class="empty">This account doesn\'t have admin access.</div>'; $("adm-staff").innerHTML=""; return; }
     $("adm-who").textContent = (m.profile && m.profile.full_name) || CP.user.email;
-    loadStaffAdmin();
+    loadStaffAdmin(); loadBusinessAdmin();
     const q=await rpc("cp_staff_queues");
     const urls=await signUrls([...q.transfers.map(t=>t.nlta_doc_path), ...q.vehicles.flatMap(v=>v.documents.map(d=>d.path))]);
     const card=(title,n,items,emptyTxt)=>`<div class="card"><div class="card-h"><h3>${title}</h3><span class="hx">${n} pending</span></div><div class="card-b">${n?items:`<p class="loading" style="padding:0">${emptyTxt}</p>`}</div></div>`;
@@ -3319,11 +3358,71 @@ async function loadStaffAdmin(){
         : '<p class="loading" style="padding:0">No surveyor partners yet.</p>'}
       <p class="note">› Surveyors register as a Partner and tick “Surveyor”. Approve the application under Provider applications above, then mark them trusted here — only trusted surveyors can onboard vehicles.</p>
     </div></div>
-    <details class="card inline-form" style="padding:0 18px"><summary style="padding:14px 0">Onboard a vehicle as carpassport</summary><div id="adm-onboard" style="padding-bottom:14px"></div></details>`;
+    <details class="card inline-form" style="padding:0 18px"><summary style="padding:14px 0">Onboard a vehicle on carpassport.mu</summary><div id="adm-onboard" style="padding-bottom:14px"></div></details>`;
     renderOnboard($("adm-onboard"), true, loadStaffAdmin);
   }catch(e){ box.innerHTML=`<div class="empty">Couldn't load onboardings — ${esc(errMsg(e))}</div>`; }
 }
 
+/* =====================================================================
+   5c. BUSINESS LICENCES
+   ===================================================================== */
+// Set by carpassport. price: text shown as-is (e.g. "MUR 1,500 / month"); null shows "Price on request".
+const BUSINESS_TIERS = [
+  { id:"Personal", limit:5, price:"Free", note:"For individual owners", features:["Up to 5 vehicles","Full record for each vehicle","Official extracts","Transfers to new owners"], personal:true },
+  { id:"Starter", limit:20, price:null, note:"Small fleets & dealers", features:["Up to 20 vehicles","Everything in Personal"] },
+  { id:"Professional", limit:100, price:null, note:"Rental, taxi & company fleets", features:["Up to 100 vehicles","Everything in Personal"] },
+  { id:"Fleet", limit:1000, price:null, note:"Large fleets", features:["More than 100 vehicles","Everything in Personal","Terms agreed with carpassport"] }
+];
+const tierOf = id => BUSINESS_TIERS.find(t=>t.id===id);
+function renderBusinessTiers(){
+  $("biz-tiers").innerHTML = BUSINESS_TIERS.map(t=>`<div class="biz-tier${t.id==="Professional"?" hi":""}">
+    <p class="bt-name">${esc(t.id)}</p><p class="bt-note">${esc(t.note)}</p>
+    <p class="bt-price">${t.price ? esc(t.price) : "Price on request"}</p>
+    <ul>${t.features.map(f=>`<li>${esc(f)}</li>`).join("")}</ul>
+    ${t.personal ? `<button type="button" class="ra" data-act="route:signup">Create a free account</button>` : `<button type="button" class="ra pri" data-cp="biz-pick:${esc(t.id)}">Choose ${esc(t.id)}</button>`}
+  </div>`).join("");
+}
+async function loadBusiness(){
+  renderBusinessTiers();
+  const box=$("biz-req-b");
+  if(!CP.live){ box.innerHTML='<p style="margin:0">Business licences open once carpassport is live.</p>'; return; }
+  if(!CP.user){ box.innerHTML=`<p style="margin:0 0 12px;font-size:13.5px;color:var(--ink-soft)">Sign in or create a free owner account first — your Business licence is added to that account.</p>
+    <div class="btnrow"><button class="ra pri" data-act="route:signup">Create an account</button><button class="ra" data-act="route:auth-owner">Sign in</button></div>`; return; }
+  const plan = await rpc("cp_my_plan").catch(()=>null);
+  if(plan && plan.plan && plan.plan!=="personal"){ box.innerHTML=`<p style="margin:0"><b>Your ${esc(plan.plan)} licence is active</b> — ${plan.vehicles} of ${plan.limit} vehicles used. Contact us to change it.</p>`; return; }
+  if(plan && plan.request && plan.request.status==="pending"){ box.innerHTML=`<p style="margin:0"><b>Your ${esc(plan.request.tier)} request is under review.</b> carpassport will call you shortly to activate it.</p>`; return; }
+  box.innerHTML = `
+    <div class="cf-row"><div class="cf"><label>Licence</label><select id="bz-tier">${BUSINESS_TIERS.filter(t=>!t.personal).map(t=>`<option value="${esc(t.id)}">${esc(t.id)} — up to ${t.limit>=1000?"1,000+":t.limit} vehicles</option>`).join("")}</select></div>
+      <div class="cf"><label>Number of vehicles</label><input id="bz-fleet" inputmode="numeric" placeholder="e.g. 12"></div></div>
+    <div class="cf-row"><div class="cf"><label>Company / trading name</label><input id="bz-company"></div>
+      <div class="cf"><label>BRN (optional)</label><input id="bz-brn" style="text-transform:uppercase"></div></div>
+    <div class="cf-row"><div class="cf"><label>Contact number</label><input id="bz-phone" inputmode="tel" placeholder="5xxx xxxx"></div></div>
+    <div class="cf"><label>Anything we should know? (optional)</label><textarea id="bz-msg" rows="3"></textarea></div>
+    <div class="auth-err" id="bz-err"></div>
+    <div class="btnrow"><button class="ra pri" id="bz-go">Send request</button></div>
+    ${plan ? `<p class="note">› You currently use ${plan.vehicles} of ${plan.limit} vehicles on your personal garage.</p>` : ""}`;
+  if(window.cpBizPick){ $("bz-tier").value=window.cpBizPick; window.cpBizPick=null; }
+  $("bz-go").addEventListener("click", e => busy(e.currentTarget, async () => {
+    $("bz-err").textContent="";
+    await rpc("cp_request_business", { p:{ tier:$("bz-tier").value, company:$("bz-company").value, brn:$("bz-brn").value, fleet_size:$("bz-fleet").value, phone:$("bz-phone").value, message:$("bz-msg").value } })
+      .then(()=>{ toast("Request sent"); loadBusiness(); }).catch(x=>$("bz-err").textContent=errMsg(x));
+  }));
+}
+async function loadBusinessAdmin(){
+  const box=$("adm-biz"); if(!box) return;
+  try{
+    const list = await rpc("cp_admin_business_requests");
+    box.innerHTML = `<p class="eyebrow p" style="margin-top:34px">Business licences</p>
+    <div class="card"><div class="card-h"><h3>Licence requests</h3><span class="hx">${list.filter(r=>r.status==="pending").length} pending</span></div><div class="card-b">
+      ${list.length ? list.map(r=>`<div class="qitem"><div><div class="qt">${esc(r.company)} — ${esc(r.tier)} <span class="schip ${r.status==="active"?"ver":r.status==="pending"?"pend":"mute"}">${esc(r.status)}</span></div>
+        <div class="qd">${esc(r.name||"")} · ${esc(r.email||"")} · ${esc(r.phone||"")}${r.brn?" · BRN "+esc(r.brn):""}${r.fleet_size?" · "+r.fleet_size+" vehicles":""} · now ${esc(r.plan)} (${r.vehicles}/${r.vehicle_limit}) · ${fmtISO(r.created_at)}${r.message?`<br>“${esc(r.message)}”`:""}</div></div>
+        <div class="btnrow">${r.status==="pending" ? `<button class="ra pri" data-cp="adm-plan:${r.user_id}:${esc(r.tier)}:${r.id}">Activate ${esc(r.tier)}</button><button class="ra" data-cp="adm-plan:${r.user_id}:personal:${r.id}">Decline</button>`
+          : r.plan!=="personal" ? `<button class="ra" data-cp="adm-plan:${r.user_id}:personal:">End licence</button>` : ""}</div></div>`).join("")
+        : '<p class="loading" style="padding:0">No requests yet.</p>'}
+      <p class="note">› Activate once the licence is agreed and invoiced. Ending a licence returns the account to 5 vehicles; vehicles already in the garage stay, but no new ones can be added.</p>
+    </div></div>`;
+  }catch(e){ box.innerHTML=""; }
+}
 /* =====================================================================
    6. SIGN-IN, PASSWORD RESET, ROUTING, DELEGATED ACTIONS
    ===================================================================== */
@@ -3372,7 +3471,7 @@ $("np-go").addEventListener("click", e => busy(e.currentTarget, async () => {
 }).catch(x => $("np-err").textContent=errMsg(x)));
 
 const GUARD = {"app-owner":"auth-owner", "app-institution":"auth-institution", "app-admin":"auth-admin", "new-password":"auth-owner"};
-const LOAD = {"app-owner":loadOwner, "app-institution":loadProvider, "app-admin":loadAdmin, "signup":wzOpen, "accept-transfer":atOpen, "provider-register":prOpen};
+const LOAD = {"app-owner":loadOwner, "app-institution":loadProvider, "app-admin":loadAdmin, "business":loadBusiness, "signup":wzOpen, "accept-transfer":atOpen, "provider-register":prOpen};
 document.addEventListener("cp:route", e => {
   const r=e.detail; if(!CP.ready) return;
   if(GUARD[r] && !CP.user) return goPage(GUARD[r]);
@@ -3394,6 +3493,10 @@ document.addEventListener("click", e => {
   if(k==="google"){ googleSignIn(val).catch(x => toast(errMsg(x))); return; }
   if(k==="own-verify"){ goPage("verify"); $("vr-code").value=val; $("vr-go").click(); return; }
   if(k==="own-survey"){ $("navSurvey").click(); return; }
+  if(k==="biz-pick"){ window.cpBizPick=val; const s=$("bz-tier"); if(s){ s.value=val; $("biz-req").scrollIntoView({behavior:"smooth",block:"start"}); } else $("biz-req").scrollIntoView({behavior:"smooth",block:"start"}); return; }
+  if(k==="adm-plan"){ const [uid, plan, req]=val.split(":"); const t=tierOf(plan);
+    if(!confirm(plan==="personal" ? "Return this account to a personal garage (5 vehicles)?" : `Activate the ${plan} licence (up to ${t?t.limit:"?"} vehicles) for this account?`)) return;
+    rpc("cp_admin_set_plan", { p_user:uid, p_plan:plan, p_limit:plan==="personal"?5:(t?t.limit:null), p_request:req||null }).then(()=>{ toast("Updated"); loadBusinessAdmin(); }).catch(x=>toast(errMsg(x))); return; }
   if(k==="adm-ob"){ const [st, id]=val.split(":"); rpc("cp_admin_mark_onboarding", { p_id:id, p_status:st }).then(loadStaffAdmin).catch(x=>toast(errMsg(x))); return; }
   if(k==="adm-trust"){ const [t, id]=val.split(":");
     if(t==="0" && !confirm("Revoke trusted-surveyor status? They will no longer be able to onboard vehicles.")) return;
