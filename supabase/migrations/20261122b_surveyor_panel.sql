@@ -167,8 +167,8 @@ begin
     c := cp_rand_code(12);
     exit when not exists (select 1 from vehicle_claims where code_key = cp_norm(c));
   end loop;
-  insert into vehicle_claims (code, code_key, vin, bound_email, bound_phone, note, expires_at, created_by)
-  values (c, cp_norm(c), p_vin, nullif(lower(trim(p_email)),''), nullif(trim(p_phone),''), nullif(trim(p_note),''),
+  insert into vehicle_claims (code, vin, bound_email, bound_phone, note, expires_at, created_by)
+  values (c, p_vin, nullif(lower(trim(p_email)),''), nullif(trim(p_phone),''), nullif(trim(p_note),''),
           now() + interval '90 days', uid);
   return c;
 end $$;
