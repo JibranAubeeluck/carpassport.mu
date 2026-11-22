@@ -1351,38 +1351,11 @@ body.cp-live .gbtn-wrap[hidden]{display:none}
           <div class="auth-field"><label>Password</label><input id="ad-pass" type="password" autocomplete="off" placeholder="••••••••"></div>
           <div class="auth-err" id="ad-err"></div>
           <button class="auth-btn adm" id="ad-go">Sign in</button>
-          <div class="auth-row"><a href="#" id="ad-reset">Forgotten password?</a><a data-route="auth-surveyor">Surveyor sign in →</a></div>
+          <div class="auth-row"><a href="#" id="ad-reset">Forgotten password?</a><a data-route="auth-institution">Surveyors: Partner sign in →</a></div>
           <p class="auth-note"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 2l8 3v6c0 5-3.5 8.5-8 11-4.5-2.5-8-6-8-11V5l8-3z" stroke="#6c7c74" stroke-width="1.4"/></svg> carpassport administrators only.</p>
         </div>
       </div>
     </div>
-  </div>
-
-  <!-- ============ SURVEYOR AUTH ============ -->
-  <div id="page-auth-surveyor" class="page" hidden>
-    <div class="auth-wrap">
-      <a class="auth-back" data-route="home">← Back to look up</a>
-      <div class="auth-card">
-        <div class="auth-top adm"></div>
-        <div class="auth-body">
-          <span class="auth-badge adm">Accredited surveyor</span>
-          <h1>Surveyor sign in</h1>
-          <p class="sub">For surveyors accredited to the CarPassport Survey Standard — create records, enter CPSS surveys, issue certificates and claim codes.</p>
-          <div class="auth-field"><label>Email</label><input id="sy-email" type="email" autocomplete="email" placeholder="surveyor@carpassport.mu"></div>
-          <div class="auth-field"><label>Password</label><input id="sy-pass" type="password" autocomplete="current-password" placeholder="••••••••"></div>
-          <div class="auth-err" id="sy-err"></div>
-          <button class="auth-btn adm" id="sy-go">Sign in</button>
-          <div class="auth-row"><a href="#" id="sy-reset">Forgotten password?</a><a data-route="contact">Become an accredited surveyor →</a></div>
-          <p class="auth-note"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 2l8 3v6c0 5-3.5 8.5-8 11-4.5-2.5-8-6-8-11V5l8-3z" stroke="#6c7c74" stroke-width="1.4"/></svg> Accounts are designated by a carpassport admin.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ============ SURVEYOR PANEL (post-auth, live) ============ -->
-  <div id="page-app-surveyor" class="page" hidden>
-    <div class="signedbar adm"><div class="wrap signedbar-in"><span class="dot"></span><span>Surveyor — <span class="who" id="srv-who">Surveyor</span></span><a class="out" data-route="app-admin" id="srv-toadmin" hidden>Admin console</a><a class="out" data-cp="signout">Sign out</a></div></div>
-    <div class="dash wrap" id="srv-root"></div>
   </div>
 
   <!-- ============ OWNER DASHBOARD (post-auth, live) ============ -->
@@ -1541,7 +1514,7 @@ body.cp-live .gbtn-wrap[hidden]{display:none}
 
   <!-- ============ ADMIN DASHBOARD (post-auth) ============ -->
   <div id="page-app-admin" class="page" hidden>
-    <div class="signedbar adm"><div class="wrap signedbar-in"><span class="dot"></span><span>Admin — <span class="who" id="adm-who">Admin</span></span><a class="out" data-route="app-surveyor">Surveyor panel</a><a class="out" data-cp="signout">Sign out</a></div></div>
+    <div class="signedbar adm"><div class="wrap signedbar-in"><span class="dot"></span><span>Admin — <span class="who" id="adm-who">Admin</span></span><a class="out" data-cp="signout">Sign out</a></div></div>
     <div class="dash wrap">
   <p class="eyebrow p" style="margin-top:28px">Admin console</p>
   <h2 class="vtitle">Review queues</h2>
@@ -1588,7 +1561,7 @@ body.cp-live .gbtn-wrap[hidden]{display:none}
           A continuous record — from import onwards
         </div>
       </div>
-      <p class="foot-staff"><a href="#" data-route="auth-surveyor">Surveyor sign in →</a> · <a href="#" data-route="auth-admin">Admin sign in →</a></p>
+      <p class="foot-staff"><a href="#" data-route="auth-admin">Admin sign in →</a></p>
       <p class="foot-legal">An independent record compiled from official, owner-supplied and surveyor sources, shown as reported on each stated date. Not a roadworthiness certificate or a warranty of condition. Prototype — sample data only.</p>
     </div>
   </footer>
@@ -2043,8 +2016,8 @@ showRecent(); updateHint();
 
 // ---------- page router ----------
 const PAGES={home:"page-home",about:"page-about",contact:"page-contact",verify:"page-verify",
-  "auth-owner":"page-auth-owner","auth-institution":"page-auth-institution","auth-admin":"page-auth-admin","auth-surveyor":"page-auth-surveyor",
-  "app-owner":"page-app-owner","app-institution":"page-app-institution","app-admin":"page-app-admin","app-surveyor":"page-app-surveyor",
+  "auth-owner":"page-auth-owner","auth-institution":"page-auth-institution","auth-admin":"page-auth-admin",
+  "app-owner":"page-app-owner","app-institution":"page-app-institution","app-admin":"page-app-admin",
   "signup":"page-signup","accept-transfer":"page-accept-transfer","provider-register":"page-provider-register","new-password":"page-new-password"};
 const NAVCANON={home:"navLookup",about:"navAbout",contact:"navContact",verify:"navVerify",
   "auth-owner":"navSignin","app-owner":"navSignin","auth-institution":"navSignin","app-institution":"navSignin","provider-register":"navRegister","signup":"navRegister","accept-transfer":"navSignin"};
@@ -2592,6 +2565,8 @@ async function wzOpen(){
   const pf = window.cpPrefill; window.cpPrefill = null; // plate / VIN searched before clicking "Register this vehicle"
   if(pf && pf.value){ const el=$(pf.mode==="vin" ? "wz-vin" : "wz-plate");
     if(el && !el.value){ el.value = pf.mode==="vin" ? pf.value : prettyPlate(pf.value); el.dispatchEvent(new Event("input")); } }
+  const pc = sessionStorage.getItem("cp.pendingClaim");
+  if(pc){ $("wz-claim").value = pc; sessionStorage.removeItem("cp.pendingClaim"); }
   $("wz-veh").hidden = !!$("wz-claim").value.trim();
   wzShow();
 }
@@ -2930,7 +2905,8 @@ const SERVICES = {
   insurer:{name:"Insurer", d:"Verify vehicles before underwriting, confirm policies, report claims and total losses."},
   bank:{name:"Bank / leasing", d:"Verify vehicles before financing; register and discharge liens."},
   garage:{name:"Garage / workshop", d:"Log services and repairs so they appear in the vehicle's history."},
-  dealer:{name:"Dealer / importer", d:"Add stock vehicles and transfer the record to the buyer at sale."}
+  dealer:{name:"Dealer / importer", d:"Add stock vehicles and transfer the record to the buyer at sale."},
+  surveyor:{name:"Surveyor", d:"Independent motor surveyors — onboard vehicles with a survey, valuation and CPSS grade (trusted surveyors only)."}
 };
 const SUBS = {
   policy:{svc:"insurer", tab:"Confirm a policy", title:"Insurance policy confirmed",
@@ -3002,6 +2978,7 @@ function providerTabs(p){
   if(p.services.includes("dealer")) t.push(["stock","Stock & sales"]);
   if(p.services.some(s => s==="insurer"||s==="bank")) t.push(["subs","Our submissions"]);
   if(p.services.includes("insurer")) t.unshift(["claims","Claims"]);
+  if(p.services.includes("surveyor")) t.unshift(["onboard","Onboard a vehicle"]);
   return t;
 }
 function renderProvider(){
@@ -3020,7 +2997,8 @@ function renderProvider(){
   if(!tabs.some(t=>t[0]===PRV.tab)) PRV.tab=tabs[0][0];
   root.innerHTML = head + `<div class="tabs">${tabs.map(t=>`<button type="button" data-cp="ptab:${t[0]}" class="${t[0]===PRV.tab?"on":""}">${esc(t[1])}</button>`).join("")}</div><div id="prv-mod"></div>`;
   const mod=$("prv-mod");
-  if(PRV.tab==="claims") renderInsurerClaims(mod);
+  if(PRV.tab==="onboard") renderOnboard(mod, !!p.surveyor_trusted);
+  else if(PRV.tab==="claims") renderInsurerClaims(mod);
   else if(PRV.tab==="service") renderService(mod);
   else if(PRV.tab==="verify") renderVerify(mod);
   else if(PRV.tab==="stock") renderStock(mod);
@@ -3190,11 +3168,10 @@ async function adminAct(action, id){
 
 
 /* =====================================================================
-   5b. SURVEYOR PANEL & ADMIN STAFF MANAGEMENT
+   5b. SURVEYOR ONBOARDING (trusted Partners) & ADMIN QUEUES
    ===================================================================== */
 const roleOf = m => (m && m.profile && m.profile.role) || "";
 const isAdmin = m => roleOf(m) === "admin";
-const isSurveyor = m => roleOf(m) === "surveyor" || roleOf(m) === "admin";
 const CPSS = [["Identity & documentation",10],["Structure & chassis",15],["Exterior & body",12],["Engine & engine bay",14],["Transmission & drivetrain",10],["Suspension, steering & brakes",15],["Tyres & wheels",7],["Interior & equipment",9],["Electrical & electronics",8]];
 const cpssBand = s => s>=90?["A","Showroom"]:s>=78?["B","Excellent"]:s>=65?["C","Good"]:s>=50?["D","Fair"]:s>=35?["E","Marginal"]:["F","Poor / Unroadworthy"];
 function cpssGrade(scores){
@@ -3205,229 +3182,143 @@ function cpssGrade(scores){
   else if(scores[5]<=1){ cap="Brake failure → grade capped at E"; if("ABCD".includes(g)){g="E";n="Marginal";} }
   return { score, grade:g, name:n, cap };
 }
-const SRV = { v:null, scores:CPSS.map(()=>5), lastCode:null };
-const codeState = c => c.redeemed_at ? '<span class="schip ver">Redeemed '+fmtISO(c.redeemed_at)+'</span>' : new Date(c.expires_at) < new Date() ? '<span class="schip mute">Expired</span>' : '<span class="schip pend">Open · expires '+fmtISO(c.expires_at)+'</span>';
-const claimMsg = (code, v) => `Hello — your vehicle ${v.registration_number||""} (${[v.make,v.model].filter(Boolean).join(" ")}) has been surveyed by carpassport.mu.\n\nYour claim code: ${code}\n\nGo to ${BASE()} → Sign up → Owner, create your account and enter this code at the Vehicle step to open the full record. The code is valid for 90 days.`;
+const VAL_PURPOSES = ["Market value","Pre-insurance value","Pre-purchase","Finance / leasing","Resale"];
+const VAL_BASIS = "Depreciation as per actual market value (inflation not included), including general condition and accessories.";
+const OB = { scores:CPSS.map(()=>5) };
 const waNum = p => { const d=String(p||"").replace(/\D/g,""); return d.length===7||d.length===8 ? "230"+d : d; };
+const obMsg = o => {
+  const veh=[o.make,o.model,o.year].filter(Boolean).join(" ");
+  return o.claim_code
+    ? `Hello, this is carpassport.mu.\n\nYour vehicle ${o.plate||""}${veh?" ("+veh+")":""} has been successfully onboarded on carpassport after an independent survey${o.surveyor?" by "+o.surveyor:""}. Its verified profile includes the survey, a CPSS grade${o.grade?" ("+o.grade+")":""} and an independent valuation.\n\nLink it to your account here:\n${BASE()}#claim=${o.claim_code}\n\nCreate your account with this mobile number. The link is valid for 90 days. You can then download an official carpassport extract of your vehicle's record whenever you need it.`
+    : `Hello, this is carpassport.mu.\n\nA new independent survey${o.surveyor?" by "+o.surveyor:""} has been added to your vehicle ${o.plate||""}${veh?" ("+veh+")":""}. You'll find it on your vehicle page at ${BASE()}.`;
+};
+const obState = o => o.linked ? '<span class="schip ver">Linked to owner</span>' : o.notify_status==="sent" ? '<span class="schip ver">Client notified</span>' : '<span class="schip pend">carpassport to notify client</span>';
 
-async function loadSurveyor(){
-  const root=$("srv-root"); root.innerHTML='<p class="loading">Loading…</p>';
-  try{
-    const m=await me();
-    if(!isSurveyor(m)){ root.innerHTML='<div class="empty">This account isn\'t a designated surveyor.</div>'; return; }
-    $("srv-who").textContent = (m.profile && m.profile.full_name) || CP.user.email;
-    $("srv-toadmin").hidden = !isAdmin(m);
-    root.innerHTML = `
-    <p class="eyebrow p" style="margin-top:28px">Surveyor panel</p>
-    <h2 class="vtitle">Survey a vehicle</h2>
-    <p class="vlede">Find the vehicle by registration or chassis, or create its record. Then enter the CPSS survey, issue the certificate, attach your signed report and give the owner a claim code.</p>
-    <div class="card"><div class="card-b">
-      <div class="cf-row"><div class="cf" style="flex:2"><label>Registration or chassis / VIN</label><input id="srv-q" placeholder="e.g. 1234 AP 18 or WBA…" style="text-transform:uppercase"></div>
-        <div class="cf" style="align-self:flex-end"><button class="ra pri" id="srv-find">Find vehicle</button></div></div>
-      <div class="auth-err" id="srv-ferr"></div>
-    </div></div>
-    <div id="srv-veh"></div>
-    <div id="srv-mine"></div>`;
-    $("srv-find").addEventListener("click", e => busy(e.currentTarget, srvFind));
-    $("srv-q").addEventListener("keydown", e => { if(e.key==="Enter") $("srv-find").click(); });
-    if(SRV.v){ $("srv-q").value = SRV.v.registration_number||SRV.v.vin; await srvOpen(SRV.v.vin); }
-    srvMine();
-  }catch(e){ root.innerHTML=`<div class="empty">Couldn't load the surveyor panel — ${esc(errMsg(e))}</div>`; }
-}
-async function srvFind(){
-  const q=$("srv-q").value.trim(), err=$("srv-ferr"); err.textContent="";
-  if(!q){ err.textContent="Enter a registration or chassis number."; return; }
-  const v=await rpc("cp_surv_find", { p_q:q }).catch(x=>{ err.textContent=errMsg(x); return undefined; });
-  if(v===undefined) return;
-  if(!v){ SRV.v=null; srvNewForm(q); return; }
-  SRV.v=v; srvRender();
-}
-async function srvOpen(vin){ const v=await rpc("cp_surv_find", { p_q:vin }); SRV.v=v; srvRender(); }
-function srvVehFields(v, isNew){
-  const val = k => esc(v && v[k]!=null ? v[k] : "");
-  return `<div class="cf-row"><div class="cf"><label>Registration</label><input id="srv-plate" value="${val("registration_number")}" style="text-transform:uppercase"></div>
-    <div class="cf"><label>Chassis / VIN</label><input id="srv-vin" value="${val("vin")}" ${isNew?"":"readonly"} style="text-transform:uppercase"></div></div>
-  <div class="cf-row"><div class="cf"><label>Make</label><input id="srv-make" value="${val("make")}"></div><div class="cf"><label>Model</label><input id="srv-model" value="${val("model")}"></div><div class="cf"><label>Year</label><input id="srv-year" inputmode="numeric" value="${val("model_year")}"></div></div>
-  <div class="cf-row"><div class="cf"><label>Colour</label><input id="srv-colour" value="${val("colour")}"></div>
-    <div class="cf"><label>Fuel</label><select id="srv-fuel"><option value=""></option>${opts(FUELS, v&&v.fuel_type)}</select></div>
-    <div class="cf"><label>Transmission</label><select id="srv-trans"><option value=""></option>${opts(TRANS, v&&v.transmission)}</select></div></div>
-  <div class="cf-row"><div class="cf"><label>Engine no.</label><input id="srv-eng" value="${val("engine_number")}" style="text-transform:uppercase"></div>
-    <div class="cf"><label>Engine capacity (cc)</label><input id="srv-cc" inputmode="numeric" value="${val("engine_capacity_cc")}"></div>
-    <div class="cf"><label>Body type</label><input id="srv-body" value="${val("body_type")}" placeholder="Saloon, SUV, pickup…"></div></div>`;
-}
-const srvVehPayload = () => ({ plate:$("srv-plate").value, vin:$("srv-vin").value, make:$("srv-make").value, model:$("srv-model").value, year:$("srv-year").value,
-  colour:$("srv-colour").value, fuel:$("srv-fuel").value, transmission:$("srv-trans").value, engine_no:$("srv-eng").value, engine_cc:$("srv-cc").value, body:$("srv-body").value });
-function srvNewForm(q){
-  const k=norm(q), isVin=k.length>=11;
-  $("srv-veh").innerHTML = `<div class="card"><div class="card-h"><h3>New vehicle record</h3><span class="hx">no record matches ${esc(q)}</span></div><div class="card-b">
-    ${srvVehFields(isVin?{vin:k}:{registration_number:q.toUpperCase()}, true)}
-    <div class="auth-err" id="srv-verr"></div>
-    <div class="btnrow"><button class="ra pri" id="srv-create">Create verified record</button></div>
-    <p class="note">› Records you create are marked verified — create one only after you've inspected the vehicle and its registration book.</p></div></div>`;
-  $("srv-create").addEventListener("click", e => busy(e.currentTarget, async () => {
-    const vin = await rpc("cp_surv_save_vehicle", { p:srvVehPayload() }).catch(x=>{ $("srv-verr").textContent=errMsg(x); });
-    if(vin){ toast("Vehicle created"); await srvOpen(vin); srvMine(); }
+function renderOnboard(mod, trusted, after){
+  if(!trusted){
+    mod.innerHTML = `<div class="card"><div class="card-h"><h3>Onboard a vehicle</h3></div><div class="card-b">
+      <p style="margin:0;font-size:13.5px;color:var(--ink-soft)">Your surveyor accreditation is being confirmed by carpassport. Once your firm is marked as a <b>trusted surveyor</b>, you can onboard vehicles here in a few clicks.</p></div></div>`;
+    return;
+  }
+  const seg = OB.scores.map((sc,i)=>`<div class="scorerow"><div class="sl">${CPSS[i][0]}<small>weight ${CPSS[i][1]}</small></div>
+    <div class="seg5" data-i="${i}">${[1,2,3,4,5].map(n=>`<button type="button" data-n="${n}" class="${n===sc?"on":""}">${n}</button>`).join("")}</div></div>`).join("");
+  mod.innerHTML = `<div class="card"><div class="card-h"><h3>Onboard a vehicle</h3><span class="hx">independent survey → verified carpassport profile</span></div><div class="card-b">
+    <p class="wz-h">Vehicle &amp; client</p>
+    <div class="cf-row"><div class="cf"><label>Registration number</label><input id="ob-plate" placeholder="1234 AP 18" style="text-transform:uppercase"></div>
+      <div class="cf"><label>Client's mobile</label><input id="ob-phone" inputmode="tel" placeholder="5xxx xxxx"></div></div>
+    <div class="fhint" id="ob-known"></div>
+    <div class="cf-row"><div class="cf"><label>Chassis / VIN</label><input id="ob-vin" style="text-transform:uppercase"></div>
+      <div class="cf"><label>Odometer (km)</label><input id="ob-odo" inputmode="numeric"></div></div>
+    <div class="cf-row"><div class="cf"><label>Make</label><input id="ob-make"></div><div class="cf"><label>Model</label><input id="ob-model"></div><div class="cf"><label>Year</label><input id="ob-year" inputmode="numeric"></div></div>
+    <div class="cf-row"><div class="cf"><label>Colour</label><input id="ob-colour"></div>
+      <div class="cf"><label>Fuel</label><select id="ob-fuel"><option value=""></option>${opts(FUELS)}</select></div>
+      <div class="cf"><label>Transmission</label><select id="ob-trans"><option value=""></option>${opts(TRANS)}</select></div></div>
+    <p class="wz-h">Valuation</p>
+    <div class="cf-row"><div class="cf"><label>Assessed value (MUR)</label><input id="ob-value" inputmode="numeric" placeholder="e.g. 850 000"></div>
+      <div class="cf"><label>Purpose</label><select id="ob-purpose">${opts(VAL_PURPOSES)}</select></div></div>
+    <div class="cf"><label>Basis of valuation</label><textarea id="ob-basis" rows="2">${esc(VAL_BASIS)}</textarea></div>
+    <p class="wz-h">CPSS grades</p>
+    <div id="ob-score">${seg}</div>
+    <div class="gradeout" style="margin-top:12px"><div><div class="go-l" id="ob-gl"></div></div>
+      <div style="flex:1"><div class="go-s" id="ob-gs"></div><div class="go-n" id="ob-gn"></div><div class="go-k" id="ob-gk"></div></div></div>
+    <p class="wz-h">General condition</p>
+    <div class="cf"><label>Condition summary (shown on the profile and extract)</label><textarea id="ob-notes" rows="3" placeholder="Overall condition, defects found, repairs advised…"></textarea></div>
+    <div class="cf"><label>Signed survey report — PDF (optional)</label><input id="ob-file" type="file" accept="application/pdf"></div>
+    <div class="auth-err" id="ob-err"></div>
+    <div class="btnrow"><button class="ra pri" id="ob-go">Onboard vehicle</button></div>
+    <p class="note">› carpassport creates the vehicle's verified profile, issues the CPSS certificate, and sends the client a WhatsApp link to claim it.</p>
+  </div></div>
+  <div id="ob-done"></div><div id="ob-list"></div>`;
+  const grade = () => { const g=cpssGrade(OB.scores); $("ob-gl").textContent=g.grade; $("ob-gs").textContent=g.score.toFixed(1)+" / 100"+(g.cap?" · capped":"");
+    $("ob-gn").textContent="Grade "+g.grade+" — "+g.name; $("ob-gk").textContent=g.cap||"No knock-out triggered."; };
+  grade();
+  $("ob-score").addEventListener("click", e => { const b=e.target.closest("button[data-n]"); if(!b) return;
+    const s=b.closest(".seg5"); OB.scores[+s.dataset.i]=+b.dataset.n; s.querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b)); grade(); });
+  $("ob-plate").addEventListener("change", async () => {
+    const q=$("ob-plate").value.trim(), hint=$("ob-known"); hint.textContent=""; if(!q) return;
+    const v=await rpc("cp_surv_find", { p_q:q }).catch(()=>null);
+    if(!v){ hint.textContent="New vehicle — a verified profile will be created."; return; }
+    [["ob-vin","vin"],["ob-make","make"],["ob-model","model"],["ob-year","model_year"],["ob-colour","colour"]].forEach(([id,k])=>{ if(v[k]!=null) $(id).value=v[k]; });
+    if(v.fuel_type) $("ob-fuel").value=v.fuel_type; if(v.transmission) $("ob-trans").value=v.transmission;
+    hint.innerHTML = "Already on carpassport — your survey and valuation will be added to its record."+(v.has_owner?" <b>It's already linked to an owner</b>, so no claim link is needed.":"");
+  });
+  $("ob-go").addEventListener("click", e => busy(e.currentTarget, async () => {
+    const err=$("ob-err"), g=cpssGrade(OB.scores), f=$("ob-file").files[0]; err.textContent="";
+    const val = id => $(id).value.trim();
+    if(!val("ob-plate") || !val("ob-vin") || !val("ob-make") || !val("ob-model")) return void(err.textContent="Enter the registration, chassis, make and model.");
+    if(String(val("ob-phone")).replace(/\D/g,"").length < 7) return void(err.textContent="Enter the client's mobile number.");
+    if(!val("ob-odo")) return void(err.textContent="Enter the odometer reading.");
+    if(!val("ob-value")) return void(err.textContent="Enter the assessed value.");
+    if(val("ob-notes").length < 10) return void(err.textContent="Add a short condition summary.");
+    if(f && (f.type!=="application/pdf" || f.size>15*1024*1024)) return void(err.textContent="The report must be a PDF under 15 MB.");
+    if(!confirm(`Onboard ${val("ob-plate").toUpperCase()} with grade ${g.grade} and a valuation of MUR ${val("ob-value")}? This becomes part of the permanent record.`)) return;
+    const results = Object.fromEntries(CPSS.map((c,i)=>[c[0], { weight:c[1], score:OB.scores[i] }])); results._knockout=g.cap;
+    const r = await rpc("cp_surv_onboard", { p:{ plate:val("ob-plate"), vin:val("ob-vin"), phone:val("ob-phone"), make:val("ob-make"), model:val("ob-model"),
+      year:val("ob-year"), colour:val("ob-colour"), fuel:$("ob-fuel").value, transmission:$("ob-trans").value, odometer:val("ob-odo"),
+      value:val("ob-value"), purpose:$("ob-purpose").value, basis:val("ob-basis"), results, score:g.score, grade:g.grade, notes:val("ob-notes") } })
+      .catch(x=>{ err.textContent=errMsg(x); });
+    if(!r) return;
+    let repNote="";
+    if(f){ try{ const path=await upload(`surveys/${r.vin}/${Date.now()}-survey-report.pdf`, f); await rpc("cp_surv_attach_report", { p_inspection:r.inspection_id, p_path:path }); }
+      catch(x){ repNote=" The report PDF didn't upload — attach it from the list below."; } }
+    const plate=val("ob-plate").toUpperCase();
+    OB.scores=CPSS.map(()=>5);
+    renderOnboard(mod, true, after);
+    $("ob-done").innerHTML = `<div class="card"><div class="card-b"><p style="margin:0 0 6px"><b>Onboarded — ${esc(plate)}.</b></p>
+      <p style="margin:0;font-size:13.5px;color:var(--ink-soft)">Verified profile created · CPSS certificate <b class="mono">${esc(r.certificate)}</b>${r.already_linked?" · the vehicle is already linked to its owner":" · carpassport will now WhatsApp the client a link to claim it"}.${esc(repNote)}</p></div></div>`;
+    toast("Vehicle onboarded");
+    if(after) after();
   }));
+  obList();
 }
-function srvRender(){
-  const v=SRV.v; if(!v) return;
-  const res=CPSS.map((c,i)=>`<div class="scorerow"><div class="sl">${c[0]}<small>weight ${c[1]}</small></div>
-    <div class="seg5" data-i="${i}">${[1,2,3,4,5].map(n=>`<button type="button" data-n="${n}" class="${n===SRV.scores[i]?"on":""}">${n}</button>`).join("")}</div></div>`).join("");
-  const surveys=v.surveys||[], codes=v.claim_codes||[];
-  $("srv-veh").innerHTML = `
-  <div class="card"><div class="card-h"><h3>${esc(v.registration_number||"—")} — ${esc([v.make,v.model,v.model_year].filter(Boolean).join(" "))}</h3>
-    <span class="hx">${esc(v.vin)} · ${v.record_status==="verified"?"verified":esc(v.record_status||"")} · ${v.has_owner?"owner linked":"no owner linked yet"}</span></div><div class="card-b">
-    <details class="inline-form"><summary>Edit particulars</summary>${srvVehFields(v,false)}<div class="auth-err" id="srv-verr"></div>
-      <div class="btnrow"><button class="ra pri" id="srv-savev">Save particulars</button></div></details>
-  </div></div>
-
-  <div class="card"><div class="card-h"><h3>CPSS survey</h3><span class="hx">score each category 1–5</span></div><div class="card-b" style="padding-top:6px">
-    <div class="cf-row"><div class="cf"><label>Inspection date</label><input id="srv-date" type="date" value="${today()}"></div>
-      <div class="cf"><label>Odometer at inspection (km)</label><input id="srv-odo" inputmode="numeric" placeholder="${v.odometer?Number(v.odometer).toLocaleString("en-GB"):"e.g. 95 494"}"></div></div>
-    <div id="srv-score">${res}</div>
-    <div class="gradeout" style="margin-top:14px">
-      <div><div class="go-l" id="srv-gl"></div></div>
-      <div style="flex:1"><div class="go-s" id="srv-gs"></div><div class="go-n" id="srv-gn"></div><div class="go-k" id="srv-gk"></div></div>
-    </div>
-    <div class="cf"><label>Surveyor's notes (shown to the owner)</label><textarea id="srv-notes" rows="3" placeholder="Key findings, repairs advised…"></textarea></div>
-    <div class="auth-err" id="srv-serr"></div>
-    <div class="btnrow"><button class="ra pri" id="srv-save">Save survey to the record</button></div>
-    <p class="note">› Knock-out rules from the CPSS standard cap the grade automatically. Saving writes the survey, the odometer reading and a timeline entry to the record.</p>
-  </div></div>
-
-  <div class="card"><div class="card-h"><h3>Surveys, certificates &amp; reports</h3><span class="hx">${surveys.length} on record</span></div><div class="card-b">
-    ${surveys.length ? surveys.map(s=>`<div class="qitem"><div><div class="qt">Grade ${esc(s.grade||"—")}${s.score!=null?" · "+esc(s.score)+"/100":""} · ${fmtISO(s.date)} · ${fmtKm(s.odometer)}</div>
-      <div class="qd">${esc(s.surveyor||"")}${s.certificate?` · certificate <b class="mono">${esc(s.certificate)}</b>`:""}${s.report_path?` · report <a href="#" data-cp="srv-rep:${esc(s.report_path)}">open</a>`:""}</div></div>
-      <div class="btnrow">${s.certificate?`<button class="ra" data-cp="srv-copy:${esc(s.certificate)}">Copy credential</button>`:`<button class="ra pri" data-cp="srv-cert:${s.id}">Issue CPSS certificate</button>`}
-        <label class="ra" style="cursor:pointer">${s.report_path?"Replace report":"Attach signed report (PDF)"}<input type="file" accept="application/pdf" data-srvrep="${s.id}" hidden></label></div></div>`).join("")
-      : '<p class="loading" style="padding:0">No survey on record yet — save one above.</p>'}
-    <p class="note">› The certificate credential can be checked by anyone on “Verify report”. The signed report PDF is visible to the owner on their vehicle page.</p>
-  </div></div>
-
-  <div class="card"><div class="card-h"><h3>Claim codes</h3><span class="hx">give the owner access to this record</span></div><div class="card-b">
-    <div class="cf-row"><div class="cf"><label>Owner's email (optional)</label><input id="srv-cemail" type="email" placeholder="Locks the code to this email"></div>
-      <div class="cf"><label>Owner's mobile (optional)</label><input id="srv-cphone" inputmode="tel" placeholder="5xxx xxxx"></div></div>
-    <div class="cf"><label>Note (internal)</label><input id="srv-cnote" placeholder="e.g. Pre-purchase survey for Mr X"></div>
-    <div class="auth-err" id="srv-cerr"></div>
-    <div class="btnrow"><button class="ra pri" id="srv-newcode">Generate claim code</button></div>
-    <div id="srv-codeout"></div>
-    ${codes.length ? `<p class="wz-h" style="margin-top:16px">Codes for this vehicle</p>`+codes.map(c=>`<div class="qitem"><div><div class="qt mono">${esc(c.code)}</div>
-      <div class="qd">Issued ${fmtISO(c.created_at)}${c.issued_by?" by "+esc(c.issued_by):""}${c.bound_email?" · for "+esc(c.bound_email):""}${c.bound_phone?" · "+esc(c.bound_phone):""}</div></div>${codeState(c)}</div>`).join("") : ""}
+async function obList(){
+  const box=$("ob-list"); if(!box) return;
+  const list = await rpc("cp_surv_my_onboardings").catch(()=>null);
+  if(!list || !list.length){ box.innerHTML=""; return; }
+  box.innerHTML = `<div class="card"><div class="card-h"><h3>Your onboardings</h3><span class="hx">${list.length}</span></div><div class="card-b">
+    ${list.map(o=>`<div class="qitem"><div><div class="qt">${esc(o.plate||"")} — ${esc(o.vehicle||"")} · grade ${esc(o.grade||"—")}${o.value?" · MUR "+fmtMUR(o.value):""}</div>
+      <div class="qd">${fmtISO(o.created_at)}${o.certificate?" · certificate "+esc(o.certificate):""} · ${o.report_path?"report attached":"no report"}</div></div>
+      <div class="btnrow">${obState(o)}${o.report_path?"":`<label class="ra" style="cursor:pointer">Attach report<input type="file" accept="application/pdf" data-obrep="${o.inspection_id}" data-obvin="${esc(o.vin)}" hidden></label>`}</div></div>`).join("")}
   </div></div>`;
-  srvGrade();
-  $("srv-score").addEventListener("click", e => { const b=e.target.closest("button[data-n]"); if(!b) return;
-    const seg=b.closest(".seg5"); SRV.scores[+seg.dataset.i]=+b.dataset.n; seg.querySelectorAll("button").forEach(x=>x.classList.toggle("on", x===b)); srvGrade(); });
-  $("srv-savev").addEventListener("click", e => busy(e.currentTarget, async () => {
-    const ok = await rpc("cp_surv_save_vehicle", { p:srvVehPayload() }).catch(x=>{ $("srv-verr").textContent=errMsg(x); });
-    if(ok){ toast("Particulars saved"); await srvOpen(v.vin); }
+  box.querySelectorAll("input[data-obrep]").forEach(inp => inp.addEventListener("change", async () => {
+    const f=inp.files[0]; if(!f) return;
+    if(f.type!=="application/pdf" || f.size>15*1024*1024) return toast("The report must be a PDF under 15 MB.");
+    try{ const path=await upload(`surveys/${inp.dataset.obvin}/${Date.now()}-survey-report.pdf`, f);
+      await rpc("cp_surv_attach_report", { p_inspection:inp.dataset.obrep, p_path:path }); toast("Report attached"); obList(); }
+    catch(x){ toast(errMsg(x)); }
   }));
-  $("srv-save").addEventListener("click", e => busy(e.currentTarget, srvSaveSurvey));
-  $("srv-newcode").addEventListener("click", e => busy(e.currentTarget, srvNewCode));
-  document.querySelectorAll("input[data-srvrep]").forEach(inp => inp.addEventListener("change", () => srvAttach(inp)));
-  if(SRV.lastCode) srvShowCode(SRV.lastCode);
-}
-function srvGrade(){
-  const g=cpssGrade(SRV.scores);
-  $("srv-gl").textContent=g.grade; $("srv-gs").textContent=g.score.toFixed(1)+" / 100"+(g.cap?" · capped":"");
-  $("srv-gn").textContent="Grade "+g.grade+" — "+g.name; $("srv-gk").textContent=g.cap||"No knock-out triggered.";
-}
-async function srvSaveSurvey(){
-  const err=$("srv-serr"), odo=parseInt(String($("srv-odo").value).replace(/\D/g,""),10); err.textContent="";
-  if(!(odo>=0)){ err.textContent="Enter the odometer reading at inspection."; return; }
-  const g=cpssGrade(SRV.scores);
-  const results = Object.fromEntries(CPSS.map((c,i)=>[c[0], { weight:c[1], score:SRV.scores[i] }]));
-  results._knockout = g.cap;
-  if(!confirm(`Save a grade ${g.grade} survey (${g.score.toFixed(1)}/100) for ${SRV.v.registration_number}? It becomes part of the permanent record.`)) return;
-  await rpc("cp_surv_save_inspection", { p_vin:SRV.v.vin, p_date:$("srv-date").value||null, p_odometer:odo, p_results:results, p_score:g.score, p_grade:g.grade, p_notes:$("srv-notes").value })
-    .then(async () => { toast("Survey saved"); SRV.scores=CPSS.map(()=>5); await srvOpen(SRV.v.vin); srvMine(); })
-    .catch(x => err.textContent=errMsg(x));
-}
-async function srvAttach(inp){
-  const f=inp.files[0]; if(!f) return;
-  if(f.type!=="application/pdf") return toast("The survey report must be a PDF.");
-  if(f.size>15*1024*1024) return toast("The report must be under 15 MB.");
-  toast("Uploading report…");
-  try{
-    const path = await upload(`surveys/${SRV.v.vin}/${Date.now()}-survey-report.pdf`, f);
-    await rpc("cp_surv_attach_report", { p_inspection:inp.dataset.srvrep, p_path:path });
-    toast("Report attached"); await srvOpen(SRV.v.vin); srvMine();
-  }catch(x){ toast(errMsg(x)); }
-}
-async function srvNewCode(){
-  const err=$("srv-cerr"); err.textContent="";
-  const email=$("srv-cemail").value.trim(), phone=$("srv-cphone").value.trim();
-  if(email && !validEmail(email)){ err.textContent="That email address isn't valid."; return; }
-  const code = await rpc("cp_surv_new_claim_code", { p_vin:SRV.v.vin, p_email:email||null, p_phone:phone||null, p_note:$("srv-cnote").value||null })
-    .catch(x=>{ err.textContent=errMsg(x); });
-  if(!code) return;
-  SRV.lastCode = { code, phone, v:{ registration_number:SRV.v.registration_number, make:SRV.v.make, model:SRV.v.model } };
-  toast("Claim code created"); await srvOpen(SRV.v.vin); srvMine();
-}
-function srvShowCode(c){
-  const box=$("srv-codeout"); if(!box || !SRV.v || SRV.v.registration_number!==c.v.registration_number) return;
-  const msg=claimMsg(c.code, c.v);
-  box.innerHTML = `<div class="codebox" style="margin-top:12px">${esc(c.code)}</div>
-    <div class="btnrow"><a class="ra pri" href="https://wa.me/${waNum(c.phone)}?text=${encodeURIComponent(msg)}" target="_blank" rel="noopener">Send by WhatsApp</a>
-      <button type="button" class="ra" data-cp="srv-copymsg">Copy message</button></div>`;
-}
-async function srvMine(){
-  const box=$("srv-mine"); if(!box) return;
-  try{
-    const [codes, surveys] = await Promise.all([rpc("cp_surv_my_codes"), rpc("cp_surv_my_surveys")]);
-    box.innerHTML = `
-    <p class="eyebrow p" style="margin-top:34px">Your work</p>
-    <div class="card"><div class="card-h"><h3>Your claim codes</h3><span class="hx">${(codes||[]).filter(c=>!c.redeemed_at && new Date(c.expires_at)>new Date()).length} open · ${(codes||[]).filter(c=>c.redeemed_at).length} redeemed</span></div><div class="card-b">
-      ${(codes||[]).length ? codes.map(c=>`<div class="qitem"><div><div class="qt"><span class="mono">${esc(c.code)}</span> — ${esc(c.plate||"")} · ${esc(c.vehicle||"")}</div>
-        <div class="qd">Issued ${fmtISO(c.created_at)}${c.bound_email?" · for "+esc(c.bound_email):""}${c.bound_phone?" · "+esc(c.bound_phone):""}</div></div>
-        <div class="btnrow">${codeState(c)}<button class="ra" data-cp="srv-open:${esc(c.vin)}">Open</button></div></div>`).join("") : '<p class="loading" style="padding:0">You haven\'t issued any claim codes yet.</p>'}
-    </div></div>
-    <div class="card"><div class="card-h"><h3>Your recent surveys</h3><span class="hx">last 50</span></div><div class="card-b">
-      ${(surveys||[]).length ? surveys.map(s=>`<div class="qitem"><div><div class="qt">${esc(s.plate||"")} — ${esc(s.vehicle||"")} · grade ${esc(s.grade||"—")}</div>
-        <div class="qd">${fmtISO(s.date)} · ${s.certificate?"certificate "+esc(s.certificate):"no certificate yet"} · ${s.report_path?"report attached":"no report attached"}</div></div>
-        <button class="ra" data-cp="srv-open:${esc(s.vin)}">Open</button></div>`).join("") : '<p class="loading" style="padding:0">No surveys yet.</p>'}
-    </div></div>`;
-  }catch(e){ box.innerHTML=""; }
-}
-async function srvAction(k, val, el){
-  if(k==="srv-open"){ await srvOpen(val); $("srv-q").value = SRV.v ? (SRV.v.registration_number||SRV.v.vin) : val; $("srv-veh").scrollIntoView({behavior:"smooth",block:"start"}); return; }
-  if(k==="srv-cert"){ if(!confirm("Issue the CPSS certificate for this survey? The credential is permanent and publicly verifiable.")) return;
-    const cred=await rpc("cp_surv_issue_certificate", { p_inspection:val }); toast("Certificate "+cred+" issued"); await srvOpen(SRV.v.vin); srvMine(); return; }
-  if(k==="srv-copy"){ copyText(val, "Credential copied"); return; }
-  if(k==="srv-copymsg"){ if(SRV.lastCode) copyText(claimMsg(SRV.lastCode.code, SRV.lastCode.v), "Message copied"); return; }
-  if(k==="srv-rep"){ const u=await signUrls([val]); if(u[val]) window.open(u[val], "_blank", "noopener"); else toast("Couldn't open the report."); return; }
 }
 
 async function loadStaffAdmin(){
   const box=$("adm-staff"); if(!box) return;
-  box.innerHTML='<p class="loading">Loading staff…</p>';
+  box.innerHTML='<p class="loading">Loading onboardings…</p>';
   try{
-    const [staff, codes] = await Promise.all([rpc("cp_admin_staff"), rpc("cp_admin_codes")]);
-    const byIssuer = {}; codes.forEach(c => (byIssuer[c.issued_by] = byIssuer[c.issued_by] || []).push(c));
+    const [obs, partners] = await Promise.all([rpc("cp_admin_onboardings"), rpc("cp_admin_surveyor_partners")]);
+    window.CP_OB = Object.fromEntries(obs.map(o=>[o.id,o]));
+    const pending = obs.filter(o=>o.notify_status==="pending");
     box.innerHTML = `
-    <p class="eyebrow p" style="margin-top:34px">Staff</p>
-    <div class="card"><div class="card-h"><h3>Surveyors &amp; admins</h3><span class="hx">${staff.filter(s=>s.role==="surveyor").length} surveyors</span></div><div class="card-b">
-      ${staff.map(s=>`<div class="qitem"><div><div class="qt">${esc(s.name||s.email)} <span class="schip ${s.role==="admin"?"ver":"pend"}">${s.role==="admin"?"Admin":"Surveyor"}</span></div>
-        <div class="qd">${esc(s.email||"")} · ${s.surveys} surveys · ${s.codes_issued} claim codes issued, ${s.codes_redeemed} redeemed</div></div>
-        ${s.role==="surveyor"?`<button class="ra" data-cp="adm-role:user:${esc(s.email)}">Remove surveyor access</button>`:""}</div>`).join("")}
-      <p class="wz-h" style="margin-top:14px">Designate a surveyor</p>
-      <div class="cf-row"><div class="cf" style="flex:2"><label>Account email</label><input id="adm-semail" type="email" placeholder="The surveyor must have signed up first"></div>
-        <div class="cf" style="align-self:flex-end"><button class="ra pri" id="adm-sadd">Make surveyor</button></div></div>
-      <div class="auth-err" id="adm-serr"></div>
-      <p class="note">› Ask the surveyor to create an account (Sign up → Owner) with their work email, then designate it here. They sign in at “Surveyor sign in” in the footer.</p>
+    <p class="eyebrow p" style="margin-top:34px">Surveyor onboardings</p>
+    <div class="card"><div class="card-h"><h3>Notify clients by WhatsApp</h3><span class="hx">${pending.length} to send</span></div><div class="card-b">
+      ${obs.length ? obs.map(o=>`<div class="qitem"><div><div class="qt">${esc(o.plate||"")} — ${esc([o.make,o.model,o.year].filter(Boolean).join(" "))} · grade ${esc(o.grade||"—")}${o.value?" · MUR "+fmtMUR(o.value):""}</div>
+        <div class="qd">Client ${esc(o.client_phone)} · by ${esc(o.surveyor||"—")} · ${fmtISO(o.created_at)}${o.claim_code?" · link code "+esc(o.claim_code):" · already linked"}</div></div>
+        <div class="btnrow">${o.notify_status==="pending"
+          ? `<a class="ra pri" href="https://wa.me/${waNum(o.client_phone)}?text=${encodeURIComponent(obMsg(o))}" target="_blank" rel="noopener">WhatsApp client</a><button class="ra" data-cp="adm-ob:sent:${o.id}">Mark as sent</button>`
+          : `${obState(o)}<button class="ra" data-cp="adm-ob:pending:${o.id}">Undo</button>`}</div></div>`).join("")
+        : '<p class="loading" style="padding:0">No onboardings yet.</p>'}
+      <p class="note">› “WhatsApp client” opens a ready message to the client — send it from the carpassport WhatsApp, then mark it as sent. This becomes automatic once the WhatsApp Business API is connected.</p>
     </div></div>
-    <div class="card"><div class="card-h"><h3>Claim codes by surveyor</h3><span class="hx">${codes.length} issued</span></div><div class="card-b">
-      ${codes.length ? Object.entries(byIssuer).map(([who, list])=>`<details class="inline-form"><summary>${esc(who)} — ${list.length} code${list.length===1?"":"s"} · ${list.filter(c=>c.redeemed_at).length} redeemed</summary>
-        ${list.map(c=>`<div class="qitem"><div><div class="qt"><span class="mono">${esc(c.code)}</span> — ${esc(c.plate||"")} · ${esc(c.vehicle||"")}</div>
-          <div class="qd">Issued ${fmtISO(c.created_at)}${c.bound_email?" · for "+esc(c.bound_email):""}</div></div>${codeState(c)}</div>`).join("")}</details>`).join("")
-        : '<p class="loading" style="padding:0">No claim codes issued yet.</p>'}
-    </div></div>`;
-    $("adm-sadd").addEventListener("click", e => busy(e.currentTarget, async () => {
-      const email=$("adm-semail").value.trim(); $("adm-serr").textContent="";
-      if(!validEmail(email)){ $("adm-serr").textContent="Enter the account's email address."; return; }
-      await rpc("cp_admin_set_role", { p_email:email, p_role:"surveyor" }).then(()=>{ toast("Surveyor designated"); loadStaffAdmin(); }).catch(x=>$("adm-serr").textContent=errMsg(x));
-    }));
-  }catch(e){ box.innerHTML=`<div class="empty">Couldn't load staff — ${esc(errMsg(e))}</div>`; }
+    <div class="card"><div class="card-h"><h3>Trusted surveyors</h3><span class="hx">${partners.filter(x=>x.trusted).length} trusted</span></div><div class="card-b">
+      ${partners.length ? partners.map(x=>`<div class="qitem"><div><div class="qt">${esc(x.name)} ${x.trusted?'<span class="schip ver">Trusted</span>':x.status==="approved"?'<span class="schip pend">Not yet trusted</span>':'<span class="schip mute">Application '+esc(x.status)+'</span>'}</div>
+        <div class="qd">BRN ${esc(x.brn||"")} · ${esc(x.contact_name||"")} · ${esc(x.email||"")} · ${esc(x.phone||"")} · ${x.onboardings} onboardings</div></div>
+        ${x.status==="approved" ? (x.trusted ? `<button class="ra" data-cp="adm-trust:0:${x.id}">Revoke trust</button>` : `<button class="ra pri" data-cp="adm-trust:1:${x.id}">Mark as trusted</button>`) : ""}</div>`).join("")
+        : '<p class="loading" style="padding:0">No surveyor partners yet.</p>'}
+      <p class="note">› Surveyors register as a Partner and tick “Surveyor”. Approve the application under Provider applications above, then mark them trusted here — only trusted surveyors can onboard vehicles.</p>
+    </div></div>
+    <details class="card inline-form" style="padding:0 18px"><summary style="padding:14px 0">Onboard a vehicle as carpassport</summary><div id="adm-onboard" style="padding-bottom:14px"></div></details>`;
+    renderOnboard($("adm-onboard"), true, loadStaffAdmin);
+  }catch(e){ box.innerHTML=`<div class="empty">Couldn't load onboardings — ${esc(errMsg(e))}</div>`; }
 }
+
 /* =====================================================================
    6. SIGN-IN, PASSWORD RESET, ROUTING, DELEGATED ACTIONS
    ===================================================================== */
@@ -3435,14 +3326,11 @@ async function afterSignIn(kind){
   const m=await me(true);
   const draft=pendingDraftRoute();
   if(draft && !onboarded(m) && !(m && m.provider)) return goPage(draft);
+  if(sessionStorage.getItem("cp.pendingClaim") && !(m && m.provider)) return goPage("signup");
   if(sessionStorage.getItem("cp.pendingTransfer") && !(m && m.provider)) return goPage(onboarded(m) ? "accept-transfer" : "signup");
   if(kind==="admin"){
     if(!isAdmin(m)){ await signOut(); throw new Error("This account doesn't have admin access."); }
     return goPage("app-admin");
-  }
-  if(kind==="surveyor"){
-    if(!isSurveyor(m)){ await signOut(); throw new Error("This account isn't a designated surveyor. Ask a carpassport admin to designate it."); }
-    return goPage("app-surveyor");
   }
   if(m && m.provider) return goPage("app-institution");
   if(!onboarded(m)) return goPage(kind==="provider" ? "provider-register" : "signup");
@@ -3467,7 +3355,7 @@ function bindSignIn(prefix, kind){
     const { error } = await CP.client.auth.resetPasswordForEmail(email, { redirectTo: BASE() });
     if(error) err.textContent=errMsg(error); else { err.textContent=""; toast("If an account exists, a reset link is on its way"); } });
 }
-bindSignIn("ao","owner"); bindSignIn("ai","provider"); bindSignIn("ad","admin"); bindSignIn("sy","surveyor");
+bindSignIn("ao","owner"); bindSignIn("ai","provider"); bindSignIn("ad","admin");
 
 $("np-go").addEventListener("click", e => busy(e.currentTarget, async () => {
   const p=$("np-pass").value, err=$("np-err");
@@ -3478,16 +3366,15 @@ $("np-go").addEventListener("click", e => busy(e.currentTarget, async () => {
   $("np-pass").value=$("np-pass2").value=""; toast("Password updated"); await afterSignIn("owner");
 }).catch(x => $("np-err").textContent=errMsg(x)));
 
-const GUARD = {"app-owner":"auth-owner", "app-institution":"auth-institution", "app-admin":"auth-admin", "app-surveyor":"auth-surveyor", "new-password":"auth-owner"};
-const LOAD = {"app-owner":loadOwner, "app-institution":loadProvider, "app-admin":loadAdmin, "app-surveyor":loadSurveyor, "signup":wzOpen, "accept-transfer":atOpen, "provider-register":prOpen};
+const GUARD = {"app-owner":"auth-owner", "app-institution":"auth-institution", "app-admin":"auth-admin", "new-password":"auth-owner"};
+const LOAD = {"app-owner":loadOwner, "app-institution":loadProvider, "app-admin":loadAdmin, "signup":wzOpen, "accept-transfer":atOpen, "provider-register":prOpen};
 document.addEventListener("cp:route", e => {
   const r=e.detail; if(!CP.ready) return;
   if(GUARD[r] && !CP.user) return goPage(GUARD[r]);
-  if(r==="auth-owner" || r==="auth-institution" || r==="auth-admin" || r==="auth-surveyor"){
+  if(r==="auth-owner" || r==="auth-institution" || r==="auth-admin"){
     if(!CP.user) return;
     me().then(m => { if(!m) return;
       if(r==="auth-admin" && isAdmin(m)) goPage("app-admin");
-      else if(r==="auth-surveyor" && isSurveyor(m)) goPage("app-surveyor");
       else if(r==="auth-institution" && m.provider) goPage("app-institution");
       else if(r==="auth-owner") goPage(m.provider ? "app-institution" : onboarded(m) ? "app-owner" : "signup"); }).catch(()=>{});
     return;
@@ -3502,10 +3389,10 @@ document.addEventListener("click", e => {
   if(k==="google"){ googleSignIn(val).catch(x => toast(errMsg(x))); return; }
   if(k==="own-verify"){ goPage("verify"); $("vr-code").value=val; $("vr-go").click(); return; }
   if(k==="own-survey"){ $("navSurvey").click(); return; }
-  if(k.startsWith("srv-")){ srvAction(k, val, el).catch(x => toast(errMsg(x))); return; }
-  if(k==="adm-role"){ const [role, ...em]=val.split(":"); const email=em.join(":");
-    if(role==="user" && !confirm("Remove surveyor access for "+email+"? Their past surveys and codes stay on record.")) return;
-    rpc("cp_admin_set_role", { p_email:email, p_role:role }).then(()=>{ toast("Updated"); loadStaffAdmin(); }).catch(x=>toast(errMsg(x))); return; }
+  if(k==="adm-ob"){ const [st, id]=val.split(":"); rpc("cp_admin_mark_onboarding", { p_id:id, p_status:st }).then(loadStaffAdmin).catch(x=>toast(errMsg(x))); return; }
+  if(k==="adm-trust"){ const [t, id]=val.split(":");
+    if(t==="0" && !confirm("Revoke trusted-surveyor status? They will no longer be able to onboard vehicles.")) return;
+    rpc("cp_admin_trust_surveyor", { p_provider:id, p_trusted:t==="1" }).then(()=>{ toast("Updated"); loadStaffAdmin(); }).catch(x=>toast(errMsg(x))); return; }
   if(k==="claim-new"){ const c=$("claims-card"); if(c){ c.scrollIntoView({behavior:"smooth",block:"start"}); const d=$("claim-new"); if(d) d.open=true; } return; }
   if(k==="extract"){ openExtractPanel(); return; }
   if(k==="claimstep"){ busy(el, () => staffClaimStep(val, el)); return; }
@@ -3701,7 +3588,7 @@ function extractHTML(x){
       ${[r.flood_damage_flag&&"Flood damage",r.fire_damage_flag&&"Fire damage",r.total_loss_flag&&"Total loss",r.theft_flag&&"Theft reported",r.odometer_rollback_flag&&"Odometer inconsistency"].filter(Boolean).length
         ? row("Flags",[r.flood_damage_flag&&"Flood damage",r.fire_damage_flag&&"Fire damage",r.total_loss_flag&&"Total loss",r.theft_flag&&"Theft reported",r.odometer_rollback_flag&&"Odometer inconsistency"].filter(Boolean).join(", ")) : row("Flags","None on record")}
     </table>
-    ${r.inspection||r.valuation?`<h2>Survey &amp; valuation</h2><table class="kvt">${r.inspection?row("CPSS survey","Grade "+e(r.inspection.grade)+" · "+fmtISO(r.inspection.date)):""}${r.valuation?row("Valuation","MUR "+fmtMUR(r.valuation.value)+" · "+e(r.valuation.purpose)+" · "+fmtISO(r.valuation.date)):""}</table>`:""}
+    ${r.inspection||r.valuation?`<h2>Survey &amp; valuation</h2><table class="kvt">${r.inspection?row("CPSS survey","Grade "+e(r.inspection.grade)+" · "+fmtISO(r.inspection.date)+(r.surveys&&r.surveys[0]?" · by "+e(r.surveys[0].surveyor)+(r.surveys[0].certificate?" · certificate "+e(r.surveys[0].certificate):""):"")):""}${r.surveys&&r.surveys[0]&&r.surveys[0].notes?row("Condition",e(r.surveys[0].notes)):""}${r.valuation?row("Valuation","MUR "+fmtMUR(r.valuation.value)+" · "+e(r.valuation.purpose)+" · "+fmtISO(r.valuation.date)+(r.valuation.surveyor?" · independent valuation by "+e(r.valuation.surveyor):"")):""}</table>`:""}
     <h2>Vehicle history</h2>${evs?`<table><thead><tr><th>Date</th><th>Event</th><th>Details</th><th>Source</th></tr></thead><tbody>${evs}</tbody></table>`:'<p class="muted">No events.</p>'}
     <h2>Odometer readings</h2>${odo?`<table><thead><tr><th>Date</th><th>Reading</th><th>Source</th><th></th></tr></thead><tbody>${odo}</tbody></table>`:'<p class="muted">None.</p>'}
     <h2>Insurance claim history</h2>${claims}
@@ -3790,6 +3677,11 @@ async function staffClaimStep(id, btn){
 }
 
 /* ---------- start ---------- */
+function claimLink(){
+  const m=location.hash.match(/^#claim=([A-Za-z0-9-]+)$/); if(!m) return false;
+  sessionStorage.setItem("cp.pendingClaim", m[1].toUpperCase()); history.replaceState(null,"",location.pathname+location.search);
+  goPage("signup"); return true;
+}
 function transferLink(){
   const m=location.hash.match(/^#transfer=([A-Za-z0-9-]+)$/); if(!m) return false;
   sessionStorage.setItem("cp.pendingTransfer", norm(m[1])); history.replaceState(null,"",location.pathname+location.search); goPage("accept-transfer"); return true;
@@ -3823,8 +3715,9 @@ function transferLink(){
   CP.ready = true; paintBanner(); paintNav();
   const ce=$("cp-email"); if(ce){ ce.textContent=CP_CONFIG.contactEmail; ce.href="mailto:"+CP_CONFIG.contactEmail; }
   document.querySelectorAll(".cp-email-txt").forEach(el => el.textContent=CP_CONFIG.contactEmail);
+  if(claimLink()) return;
   if(transferLink()) return;
-  window.addEventListener("hashchange", transferLink);
+  window.addEventListener("hashchange", () => { claimLink() || transferLink(); });
   // back from an email-confirmation link with a half-finished form
   if(CP.user && pendingDraftRoute()){ const m=await me().catch(()=>null); if(!onboarded(m) && !(m&&m.provider)) goPage(pendingDraftRoute()); }
 })();
